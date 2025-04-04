@@ -1,0 +1,23 @@
+package com.backend.nova.DTO.CarritoDTO;
+
+import com.backend.nova.DTO.ClienteDTO.ClienteDTO;
+import com.backend.nova.DTO.ContieneNMDTO.ContieneNMDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class CrearCarritoDTO implements Serializable {
+    private LocalDateTime fechaCompra;
+    private boolean finalizado;
+    private ClienteDTO clienteDTO;
+    private List<ContieneNMDTO> contiene;
+}
