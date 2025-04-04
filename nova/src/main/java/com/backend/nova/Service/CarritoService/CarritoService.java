@@ -23,10 +23,13 @@ public class CarritoService implements ICarritoService{
 
     @Autowired
     private ICarritoRepository iCarritoRepository;
+
     @Autowired
     private IClienteRepository iClienteRepository;
+
     @Autowired
     private IProductoRepository iProductoRepository;
+
     @Autowired
     private IContieneNMRepository iContieneNMRepository;
 

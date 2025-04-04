@@ -16,7 +16,7 @@ import java.util.Map;
 
 @CrossOrigin(origins ={"*"})
 @RestController
-@RequestMapping("/coche")
+@RequestMapping("/carrito")
 public class CarritoController {
 
     @Autowired

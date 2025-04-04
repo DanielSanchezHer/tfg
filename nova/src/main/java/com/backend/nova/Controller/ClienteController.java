@@ -87,10 +87,11 @@ public class ClienteController {
         return new ResponseEntity<>(errores, HttpStatus.OK);
     }
 
-    @PostMapping("/clientes/finalizar-carrito")
+    @PostMapping("/clientes/finalizar-carrito/")
     public ResponseEntity<?> finalizarCarritoCliente(@RequestBody FinalizarCarrito request) {
         Map<String, Object> response = new HashMap<>();
-        try {
+        try
+        {
             Carrito carritoFinalizado = clienteService.finalizarCarritoActivo(request.getClienteId());
             return ResponseEntity.ok(carritoFinalizado);
         } catch (Exception e) {
