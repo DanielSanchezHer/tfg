@@ -100,4 +100,17 @@ public class ClienteController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/clientesCarrito/{id}")
+    public ResponseEntity<?> getCarritosWithProductosByClienteId(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<Carrito> carritos = clienteService.findAllCarritoWithProductoByClienteId(id);
+            return ResponseEntity.ok(carritos);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            response.put("message", "Error al obtener los carritos del cliente");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

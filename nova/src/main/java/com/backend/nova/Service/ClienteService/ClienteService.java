@@ -69,15 +69,15 @@ public class ClienteService implements IClienteService{
     }
     @Override
     public Carrito finalizarCarritoActivo(Long clienteId) {
-        // 1. Verificar que el cliente existe
+        // Verifica que el cliente existe
         Cliente cliente = iClienteRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
 
-        // 2. Buscar carrito no finalizado del cliente
+        // Busca carrito no finalizado del cliente
         Carrito carrito = iClienteRepository.findCarritoNoFinalizadoByClienteId(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Carrito.class.getSimpleName()));
 
-        // 3. Finalizar el carrito
+        // Finaliza el carrito
         carrito.setFinalizado(true);
         carrito.setFechaCompra(LocalDateTime.now()); // Actualizar fecha de compra
 
@@ -86,5 +86,20 @@ public class ClienteService implements IClienteService{
         } catch (Exception e) {
             throw new UpdateEntityException("Error al finalizar el carrito del cliente: " + clienteId, e);
         }
+    }
+    @Override
+    public List<Carrito> findAllCarritoWithProductoByClienteId(Long clienteId) {
+        // Validar que el cliente exista
+        iClienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
+
+        // Obtener los carritos con sus productos
+        List<Carrito> carritos = iClienteRepository.findAllCarritoWithProductoByClienteId(clienteId);
+
+        if (carritos.isEmpty()) {
+            throw new NotFoundEntityException(clienteId, Carrito.class.getSimpleName());
+        }
+
+        return carritos;
     }
 }

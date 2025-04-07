@@ -12,4 +12,5 @@ public interface IClienteService {
     Cliente modificarCliente(Long id,Cliente cliente);
     boolean deleteById(Long id) throws Exception;
     Carrito finalizarCarritoActivo(Long clienteId);
+    List<Carrito> findAllCarritoWithProductoByClienteId(Long clienteId);
 }
