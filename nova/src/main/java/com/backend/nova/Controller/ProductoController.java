@@ -17,7 +17,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping("/distribuidor")
+@RequestMapping("/producto")
 public class ProductoController {
 
     @Autowired
@@ -74,4 +74,10 @@ public class ProductoController {
         return ResponseEntity.ok(errores);
     }
 
+    @GetMapping("/productos/no-entregados")
+    public ResponseEntity<List<ProductoDTO>> getProductosNoEntregados() {
+        List<Producto> productosNoEntregados = productoService.findProductosNoEntregados();
+        List<ProductoDTO> productoDTOS = productoMapper.mapList(productosNoEntregados, ProductoDTO.class);
+        return ResponseEntity.ok(productoDTOS);
+    }
 }

@@ -63,4 +63,8 @@ public class ProductoService implements IProductoService{
         }
     }
 
+    @Override
+    public List<Producto> findProductosNoEntregados() {
+        return iProductoRepository.findByEntregadoFalse();
+    }
 }

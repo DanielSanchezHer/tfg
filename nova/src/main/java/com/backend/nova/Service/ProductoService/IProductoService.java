@@ -10,4 +10,5 @@ public interface IProductoService {
     Producto crearProducto(Producto producto);
     Producto modificarProducto(Long id,Producto producto);
     boolean deleteById(Long id) throws Exception;
+    List<Producto> findProductosNoEntregados();
 }
