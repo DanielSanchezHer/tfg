@@ -2,6 +2,7 @@ package com.backend.nova.Controller;
 
 
 import com.backend.nova.DTO.ClienteDTO.ClienteDTO;
+import com.backend.nova.DTO.ClienteDTO.ClienteFacturaDTO;
 import com.backend.nova.DTO.ClienteDTO.FinalizarCarrito;
 import com.backend.nova.Entity.Carrito;
 import com.backend.nova.Entity.Cliente;
@@ -112,5 +113,15 @@ public class ClienteController {
             response.put("message", "Error al obtener los carritos del cliente");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/clienteFactura/{id}")
+    public ResponseEntity<ClienteFacturaDTO> obtenerTotalFactura(@PathVariable Long id) {
+        double total = clienteService.calcularTotalCarritoActivo(id);
+
+        ClienteFacturaDTO facturaDTO = new ClienteFacturaDTO();
+        facturaDTO.setIdCliente(id);
+        facturaDTO.setTotalFactura(total);
+
+        return ResponseEntity.ok(facturaDTO);
     }
 }

@@ -17,5 +17,13 @@ public interface IClienteRepository extends CrudRepository<Cliente, Long>
 
     @Query("SELECT c FROM Carrito c JOIN FETCH c.contiene cont JOIN FETCH cont.productos WHERE c.cliente.id = :clienteId")
     List<Carrito> findAllCarritoWithProductoByClienteId(@Param("clienteId") Long clienteId);
-
+    @Query("""
+    SELECT SUM(p.precio * c.cantidad) 
+    FROM Carrito car
+    JOIN car.contiene c
+    JOIN c.productos p
+    WHERE car.cliente.id = :clienteId
+      AND car.finalizado = false
+        """)
+    Double calcularTotalCarritoActivo(@Param("clienteId") Long clienteId);
 }

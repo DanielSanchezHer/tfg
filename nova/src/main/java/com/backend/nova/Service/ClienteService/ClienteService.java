@@ -102,4 +102,16 @@ public class ClienteService implements IClienteService{
 
         return carritos;
     }
+
+    @Override
+    public Double calcularTotalCarritoActivo(Long clienteId) {
+        // Verificamos que el cliente exista
+        iClienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
+
+        // Ejecutamos la query para obtener el total
+        Double total = iClienteRepository.calcularTotalCarritoActivo(clienteId);
+
+        return total != null ? total : 0.0; // Si no hay productos, devolvemos 0.0
+    }
 }
