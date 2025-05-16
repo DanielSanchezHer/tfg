@@ -14,9 +14,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "cliente")
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Cliente extends Usuario {
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "nombre")

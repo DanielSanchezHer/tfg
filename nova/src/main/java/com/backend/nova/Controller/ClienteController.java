@@ -114,6 +114,7 @@ public class ClienteController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/clienteFactura/{id}")
     public ResponseEntity<ClienteFacturaDTO> obtenerTotalFactura(@PathVariable Long id) {
         double total = clienteService.calcularTotalCarritoActivo(id);
@@ -124,4 +125,5 @@ public class ClienteController {
 
         return ResponseEntity.ok(facturaDTO);
     }
+
 }

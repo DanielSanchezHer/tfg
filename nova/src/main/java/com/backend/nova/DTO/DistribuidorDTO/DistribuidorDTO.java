@@ -23,5 +23,4 @@ public class DistribuidorDTO implements Serializable {
     private String email;
     private String nombreRepartidor;
     private ProveedorDTO proveedor;
-    private List<ProductoDTO> productos;
 }

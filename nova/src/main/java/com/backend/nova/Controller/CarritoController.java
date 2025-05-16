@@ -2,7 +2,10 @@ package com.backend.nova.Controller;
 
 import com.backend.nova.DTO.CarritoDTO.AnyadirProductoCarrito;
 import com.backend.nova.DTO.CarritoDTO.CarritoDTO;
+import com.backend.nova.DTO.ProductoDTO.CrearProductoDTO;
+import com.backend.nova.DTO.ProductoDTO.ProductoCarritoDTO;
 import com.backend.nova.Entity.Carrito;
+import com.backend.nova.Entity.ContieneNM;
 import com.backend.nova.Mapper.Mapper;
 import com.backend.nova.Service.CarritoService.CarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,15 +92,16 @@ public class CarritoController {
             @RequestBody AnyadirProductoCarrito request) {
 
         Map<String, Object> response = new HashMap<>();
-        try
-        {
+        try {
             Carrito carrito = carritoService.agregarProductoAlCarrito(
                     request.getClienteId(),
                     request.getProductoId(),
                     request.getCantidad()
             );
+
             CarritoDTO carritoDTO = mapper.mapType(carrito, CarritoDTO.class);
             return ResponseEntity.ok(carritoDTO);
+
         } catch (Exception e) {
             response.put("error", e.getMessage());
             response.put("message", "Error al agregar producto al carrito");
@@ -110,5 +114,25 @@ public class CarritoController {
         List<Carrito> carritos = carritoService.findFinalizedCarritosByCliente(clienteId);
         List<CarritoDTO> carritoDTOS = mapper.mapList(carritos, CarritoDTO.class);
         return ResponseEntity.ok(carritoDTOS);
+    }
+
+    @GetMapping("/carritos/carritosNoFinalizados")
+    public ResponseEntity<CarritoDTO> getCarritosNoFinalizados(Long clienteId) {
+        Carrito carrito = carritoService.getCarritoAbiertoPorCliente(clienteId);
+        CarritoDTO carritoCreatedDTO = mapper.mapType(carrito, CarritoDTO.class);
+        return ResponseEntity.ok(carritoCreatedDTO);
+    }
+
+    @GetMapping("/carritos/{carritoId}/productos")
+    public ResponseEntity<?> getProductosDeCarrito(@PathVariable Long carritoId) {
+        try {
+            List<ContieneNM> contieneNMS = carritoService.getProductosPorCarrito(carritoId);
+            List<ProductoCarritoDTO> contieneNMSDTO = mapper.mapList(contieneNMS, ProductoCarritoDTO.class);
+            return ResponseEntity.ok(contieneNMSDTO);
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
     }
 }

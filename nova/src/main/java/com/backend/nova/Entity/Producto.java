@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -30,10 +32,8 @@ public class Producto {
     @Column(name = "entregado")
     private boolean entregado;
 
-    @JsonIgnoreProperties("productos")
-    @ManyToOne
-    @JoinColumn(name = "id_contiene", referencedColumnName = "id")
-    private ContieneNM contiene;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ContieneNM> contiene;
 
     @JsonIgnoreProperties("productos")
     @ManyToOne

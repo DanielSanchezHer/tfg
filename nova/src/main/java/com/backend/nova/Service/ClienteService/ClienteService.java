@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ClienteService implements IClienteService{
+public class ClienteService implements IClienteService {
 
     @Autowired
     private IClienteRepository iClienteRepository;
@@ -29,15 +29,15 @@ public class ClienteService implements IClienteService{
 
     @Override
     public Cliente findById(Long id) {
-        return iClienteRepository.findById(id).orElseThrow(()->
-                new NotFoundEntityException(id,Cliente.class.getSimpleName()));
+        return iClienteRepository.findById(id)
+                .orElseThrow(() -> new NotFoundEntityException(id, Cliente.class.getSimpleName()));
     }
 
     @Override
     public Cliente crearCliente(Cliente cliente) {
-        try{
+        try {
             return iClienteRepository.save(cliente);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CreateEntityException(cliente, e);
         }
     }
@@ -45,41 +45,37 @@ public class ClienteService implements IClienteService{
     @Override
     public Cliente modificarCliente(Long id, Cliente cliente) {
         try {
-            iClienteRepository.findById(id).orElseThrow(
-                    () -> new Exception("Mecanico no encontrado" + id)
-            );
+            iClienteRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundEntityException(id, Cliente.class.getSimpleName()));
             cliente.setId(id);
             return iClienteRepository.save(cliente);
         } catch (Exception e) {
-            throw new UpdateEntityException("Error al modificar el mecanico: "+id,e);
+            throw new UpdateEntityException("Error al modificar el cliente: " + id, e);
         }
     }
 
     @Override
     public boolean deleteById(Long id) throws Exception {
-        try{
-            iClienteRepository.findById(id).orElseThrow(
-                    () -> new NotFoundEntityException(id,Cliente.class.getSimpleName())
-            );
+        try {
+            iClienteRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundEntityException(id, Cliente.class.getSimpleName()));
             iClienteRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new DeleteEntityException(id, Cliente.class.getSimpleName(), e);
         }
     }
+
     @Override
     public Carrito finalizarCarritoActivo(Long clienteId) {
-        // Verifica que el cliente existe
         Cliente cliente = iClienteRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
 
-        // Busca carrito no finalizado del cliente
         Carrito carrito = iClienteRepository.findCarritoNoFinalizadoByClienteId(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Carrito.class.getSimpleName()));
 
-        // Finaliza el carrito
         carrito.setFinalizado(true);
-        carrito.setFechaCompra(LocalDateTime.now()); // Actualizar fecha de compra
+        carrito.setFechaCompra(LocalDateTime.now());
 
         try {
             return iCarritoRepository.save(carrito);
@@ -87,13 +83,12 @@ public class ClienteService implements IClienteService{
             throw new UpdateEntityException("Error al finalizar el carrito del cliente: " + clienteId, e);
         }
     }
+
     @Override
     public List<Carrito> findAllCarritoWithProductoByClienteId(Long clienteId) {
-        // Validar que el cliente exista
         iClienteRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
 
-        // Obtener los carritos con sus productos
         List<Carrito> carritos = iClienteRepository.findAllCarritoWithProductoByClienteId(clienteId);
 
         if (carritos.isEmpty()) {
@@ -105,13 +100,11 @@ public class ClienteService implements IClienteService{
 
     @Override
     public Double calcularTotalCarritoActivo(Long clienteId) {
-        // Verificamos que el cliente exista
         iClienteRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundEntityException(clienteId, Cliente.class.getSimpleName()));
 
-        // Ejecutamos la query para obtener el total
         Double total = iClienteRepository.calcularTotalCarritoActivo(clienteId);
 
-        return total != null ? total : 0.0; // Si no hay productos, devolvemos 0.0
+        return total != null ? total : 0.0;
     }
 }

@@ -13,6 +13,10 @@ public interface ICarritoRepository extends CrudRepository<Carrito, Long> {
     @Query("SELECT c FROM Carrito c WHERE c.cliente.id = :clienteId AND c.finalizado = true")
     List<Carrito> findFinalizedCarritosByCliente(@Param("clienteId") Long clienteId);
 
-    @Query("SELECT c FROM Carrito c WHERE c.cliente.id = :clienteId AND c.finalizado = false")
+    @Query("SELECT c FROM Carrito c LEFT JOIN FETCH c.contiene WHERE c.cliente.id = :clienteId AND c.finalizado = false")
     Optional<Carrito> findOpenCartByCliente(@Param("clienteId") Long clienteId);
 }
+/*
+    @Query("SELECT c FROM Carrito c WHERE c.cliente.id = :clienteId AND c.finalizado = false")
+    Optional<Carrito> findOpenCartByCliente(@Param("clienteId") Long clienteId);
+ */

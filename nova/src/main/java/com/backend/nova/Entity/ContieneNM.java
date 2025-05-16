@@ -22,10 +22,11 @@ public class ContieneNM {
     @Column(name = "cantidad")
     private int cantidad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_carrito", nullable = false)
     private Carrito carrito;
 
-    @OneToMany(mappedBy = "contiene", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Producto> productos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_producto", nullable = false)
+    private Producto producto;
 }

@@ -1,6 +1,7 @@
 package com.backend.nova.Controller;
 
 
+import com.backend.nova.DTO.ProductoDTO.CrearProductoDTO;
 import com.backend.nova.DTO.ProductoDTO.ProductoDTO;
 import com.backend.nova.Entity.Producto;
 import com.backend.nova.Mapper.Mapper;
@@ -41,7 +42,7 @@ public class ProductoController {
     }
 
     @PostMapping("/productos")
-    public ResponseEntity<ProductoDTO> crearProducto(@RequestBody ProductoDTO newProducto) {
+    public ResponseEntity<ProductoDTO> crearProducto(@RequestBody CrearProductoDTO newProducto) {
         Producto producto = productoService.crearProducto(productoMapper.mapType(newProducto, Producto.class));
         ProductoDTO productoDTO = productoMapper.mapType(producto, ProductoDTO.class);
         return ResponseEntity.ok(productoDTO);
@@ -61,6 +62,7 @@ public class ProductoController {
         }
         return new ResponseEntity<>(producto, HttpStatus.OK);
     }
+
     @DeleteMapping("/productos/{id}")
     public ResponseEntity<?> eliminarProducto(@PathVariable Long id) {
         Map<String, Object> errores = new HashMap<String,Object>();
@@ -80,4 +82,5 @@ public class ProductoController {
         List<ProductoDTO> productoDTOS = productoMapper.mapList(productosNoEntregados, ProductoDTO.class);
         return ResponseEntity.ok(productoDTOS);
     }
+
 }

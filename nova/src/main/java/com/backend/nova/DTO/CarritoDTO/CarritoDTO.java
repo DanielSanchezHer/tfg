@@ -23,5 +23,4 @@ public class CarritoDTO implements Serializable {
     private LocalDateTime fechaCompra;
     private boolean finalizado;
     private Cliente cliente;
-    private List<ContieneNMDTO> contiene;
 }
