@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins ={"*"})
 @RestController
@@ -127,7 +128,16 @@ public class CarritoController {
     public ResponseEntity<?> getProductosDeCarrito(@PathVariable Long carritoId) {
         try {
             List<ContieneNM> contieneNMS = carritoService.getProductosPorCarrito(carritoId);
-            List<ProductoCarritoDTO> contieneNMSDTO = mapper.mapList(contieneNMS, ProductoCarritoDTO.class);
+            List<ProductoCarritoDTO> contieneNMSDTO = contieneNMS.stream().map(contiene -> {
+                ProductoCarritoDTO dto = new ProductoCarritoDTO();
+                dto.setId(contiene.getProducto().getId());
+                dto.setNombre(contiene.getProducto().getNombre());
+                dto.setPrecio(contiene.getCantidad());
+                dto.setDescripcion(contiene.getProducto().getDescripcion());
+                dto.setPrecio(contiene.getProducto().getPrecio());
+                return dto;
+            }).collect(Collectors.toList());
+
             return ResponseEntity.ok(contieneNMSDTO);
         } catch (Exception e) {
             Map<String, Object> error = new HashMap<>();
@@ -136,3 +146,17 @@ public class CarritoController {
         }
     }
 }
+/*
+@GetMapping("/carritos/{carritoId}/productos")
+    public ResponseEntity<?> getProductosDeCarrito(@PathVariable Long carritoId) {
+        try {
+            List<ContieneNM> contieneNMS = carritoService.getProductosPorCarrito(carritoId);
+            List<ProductoCarritoDTO> contieneNMSDTO = mapper.mapList(contieneNMS, ProductoCarritoDTO.class);
+            return ResponseEntity.ok(contieneNMSDTO);
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
+    }
+ */

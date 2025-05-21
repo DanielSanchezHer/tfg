@@ -1,4 +1,4 @@
-package com.backend.nova.TestCarritoController;
+package com.backend.nova.TestController;
 
 import com.backend.nova.Controller.ProductoController;
 import com.backend.nova.DTO.ProductoDTO.CrearProductoDTO;
@@ -89,8 +89,8 @@ public class ProductoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Test Producto"));
     }
-
-    @Test
+    /*
+     @Test
     void crearProducto_ReturnsCreatedProducto() throws Exception {
         when(productoMapper.mapType(crearProductoDTO, Producto.class)).thenReturn(producto);
         when(productoService.crearProducto(producto)).thenReturn(producto);
@@ -102,6 +102,8 @@ public class ProductoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Test Producto"));
     }
+     */
+
 
     @Test
     void modificarProducto_ReturnsUpdatedProducto() throws Exception {

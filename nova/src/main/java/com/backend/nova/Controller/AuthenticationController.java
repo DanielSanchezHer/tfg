@@ -1,13 +1,18 @@
 package com.backend.nova.Controller;
 
 
+import com.backend.nova.DTO.CarritoDTO.CarritoDTO;
 import com.backend.nova.DTO.UsuarioDTO.CrearUsuarioDTO;
 import com.backend.nova.DTO.UsuarioDTO.LoginUsuarioDTO;
+import com.backend.nova.DTO.UsuarioDTO.UsuarioDTO;
+import com.backend.nova.Entity.Carrito;
 import com.backend.nova.Entity.Cliente;
 import com.backend.nova.Entity.Role;
+import com.backend.nova.Entity.Usuario;
 import com.backend.nova.Exception.Response;
 import com.backend.nova.Mapper.Mapper;
 import com.backend.nova.Repository.IRoleRepository;
+import com.backend.nova.Service.UsuarioService.UsuarioService;
 import com.backend.nova.Service.authentication.IAutenticationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,8 @@ public class AuthenticationController {
 
     @Autowired
     private IRoleRepository roleRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PostMapping("/signup/cliente")
     public ResponseEntity<?> registerCliente(@RequestBody CrearUsuarioDTO registerUsuarioDto)
@@ -58,5 +65,11 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(jwtToken);
     }
-
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable String id)
+    {
+        Usuario usuario = usuarioService.findByUser(id);
+        UsuarioDTO usuarioDTO = mapper.mapType(usuario, UsuarioDTO.class);
+        return ResponseEntity.ok(usuarioDTO);
+    }
 }

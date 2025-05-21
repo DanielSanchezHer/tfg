@@ -120,7 +120,6 @@ public class ClienteController {
         double total = clienteService.calcularTotalCarritoActivo(id);
 
         ClienteFacturaDTO facturaDTO = new ClienteFacturaDTO();
-        facturaDTO.setIdCliente(id);
         facturaDTO.setTotalFactura(total);
 
         return ResponseEntity.ok(facturaDTO);

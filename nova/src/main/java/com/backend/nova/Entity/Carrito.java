@@ -1,5 +1,7 @@
 package com.backend.nova.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,10 +28,13 @@ public class Carrito {
     @Column(name = "finalizado")
     private boolean finalizado;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
+    @JsonBackReference
     private Cliente cliente;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ContieneNM> contiene;
 }

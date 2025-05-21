@@ -1,7 +1,9 @@
 package com.backend.nova.Service.UsuarioService;
 
 
+import com.backend.nova.Entity.Carrito;
 import com.backend.nova.Entity.Usuario;
+import com.backend.nova.Exception.NotFoundEntityException;
 import com.backend.nova.Repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,5 +26,10 @@ public class UsuarioService implements IUsuarioService
                 user.getPassword(),
                 user.getAuthorities()
         );
+    }
+    @Override
+    public Usuario findByUser(String username) {
+        return userRepository.findByUsername(username).orElseThrow(()
+                -> new NotFoundEntityException(username, Usuario.class.getSimpleName()));
     }
 }

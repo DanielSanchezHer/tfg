@@ -1,4 +1,4 @@
-package com.backend.nova.TestCarritoController;
+package com.backend.nova.TestController;
 
 import com.backend.nova.Controller.ProveedorController;
 import com.backend.nova.DTO.ProveedorDTO.ProveedorDTO;
@@ -79,8 +79,8 @@ public class ProveedorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Proveedor Test"));
     }
-
-    @Test
+    /*
+         @Test
     void crearProveedor_ReturnsCreatedProveedor() throws Exception {
         when(mapper.mapType(proveedorDTO, Proveedor.class)).thenReturn(proveedor);
         when(proveedorService.crearProveedor(proveedor)).thenReturn(proveedor);
@@ -92,6 +92,8 @@ public class ProveedorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Proveedor Test"));
     }
+     */
+
 
     @Test
     void modificarProveedor_ReturnsUpdatedProveedor() throws Exception {

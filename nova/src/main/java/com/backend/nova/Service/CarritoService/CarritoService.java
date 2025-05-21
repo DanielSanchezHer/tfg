@@ -126,10 +126,9 @@ public class CarritoService implements ICarritoService{
     }
     @Override
     public List<ContieneNM> getProductosPorCarrito(Long carritoId) {
-        // Verifica que el carrito exista
         Carrito carrito = iCarritoRepository.findById(carritoId)
                 .orElseThrow(() -> new NotFoundEntityException(carritoId, Carrito.class.getSimpleName()));
 
-        return iContieneNMRepository.findByCarritoId(carritoId);
+        return iContieneNMRepository.findByCarrito_Id(carritoId);
     }
 }
