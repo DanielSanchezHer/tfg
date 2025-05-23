@@ -231,7 +231,7 @@ public class TestCarritoController {
     }
 
     // Test para caso de error al obtener carrito por ID
-    /*
+
     @Test
     public void testGetCarritoByIdNotFound() throws Exception {
         when(carritoService.findById(1L))
@@ -241,7 +241,7 @@ public class TestCarritoController {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").exists());
     }
-     */
+
 
 
     // Test para caso de error al eliminar carrito

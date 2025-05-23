@@ -73,7 +73,7 @@ public class ClienteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nombre").value("Juan"));
     }
-    /*
+
           @Test
     void testCreateCliente() throws Exception {
         ClienteDTO inputDTO = new ClienteDTO(0, "Ana", "Gómez", null);
@@ -92,8 +92,6 @@ public class ClienteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Ana"));
     }
-     */
-    /*
          @Test
     void testUpdateCliente_success() throws Exception {
         Cliente updatedCliente = new Cliente();
@@ -109,10 +107,6 @@ public class ClienteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Carlos"));
     }
-     */
-
-
-    /*
     @Test
     void testUpdateCliente_error() throws Exception {
         Cliente updateRequest = new Cliente();
@@ -128,7 +122,7 @@ public class ClienteControllerTest {
                 .andExpect(jsonPath("$.mensaje").value("Error al modificar el cliente"));
     }
 
-     */
+
 
     @Test
     void testFinalizarCarritoCliente_success() throws Exception {

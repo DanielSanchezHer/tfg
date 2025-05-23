@@ -3,6 +3,7 @@ package com.backend.nova.Config;
 import com.backend.nova.Config.Security.JwtAccessDenied;
 import com.backend.nova.Config.Security.JwtAuthenticationFilter;
 import com.backend.nova.Config.Security.JwtEntryPoint;
+import com.backend.nova.Entity.RoleType;
 import com.backend.nova.Service.UsuarioService.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,12 +111,19 @@ public class SecurityConfig
                             //    .requestMatchers(HttpMethod.POST,"/reparacion/reparaciones").hasRole(RoleType.GERENTE.name())
                             //    .requestMatchers(HttpMethod.PUT,"/consulta/comprarPiezas").hasRole(RoleType.ENCARGADO.name())
                             //    .requestMatchers(HttpMethod.GET,"/consulta/cochesReparaMecanico/{id}").hasAnyRole(RoleType.GERENTE.name(),RoleType.ENCARGADO.name(),RoleType.EMPLEADO.name())
-                             //   .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                            //   .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/carrito/**").permitAll()
                                 .requestMatchers("/cliente/**").permitAll()
                                 .requestMatchers("/distribuidor/**").permitAll()
-                                .requestMatchers("/producto/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/producto/productos").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/producto/productos/{id}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/producto/productos").hasRole(RoleType.ENCARGADO.name())
+                                .requestMatchers(HttpMethod.PUT,"/producto/productos/{id}").hasRole(RoleType.ENCARGADO.name())
+                                .requestMatchers(HttpMethod.DELETE,"/producto/productos/{id}").hasRole(RoleType.ENCARGADO.name())
+                                .requestMatchers(HttpMethod.GET,"/producto/productos/no-entregados").permitAll()
+                               // .requestMatchers("/producto/**").permitAll()
                                 .requestMatchers("/proveedor/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

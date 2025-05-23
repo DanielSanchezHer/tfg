@@ -79,7 +79,7 @@ public class ProveedorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Proveedor Test"));
     }
-    /*
+
          @Test
     void crearProveedor_ReturnsCreatedProveedor() throws Exception {
         when(mapper.mapType(proveedorDTO, Proveedor.class)).thenReturn(proveedor);
@@ -92,7 +92,7 @@ public class ProveedorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Proveedor Test"));
     }
-     */
+
 
 
     @Test

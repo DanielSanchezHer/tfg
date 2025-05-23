@@ -89,7 +89,7 @@ public class ProductoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Test Producto"));
     }
-    /*
+
      @Test
     void crearProducto_ReturnsCreatedProducto() throws Exception {
         when(productoMapper.mapType(crearProductoDTO, Producto.class)).thenReturn(producto);
@@ -102,7 +102,7 @@ public class ProductoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Test Producto"));
     }
-     */
+
 
 
     @Test
