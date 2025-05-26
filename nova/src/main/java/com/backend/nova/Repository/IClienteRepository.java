@@ -2,6 +2,7 @@ package com.backend.nova.Repository;
 
 import com.backend.nova.Entity.Carrito;
 import com.backend.nova.Entity.Cliente;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+@Hidden
 @Repository
 public interface IClienteRepository extends CrudRepository<Cliente, Long> {
 
