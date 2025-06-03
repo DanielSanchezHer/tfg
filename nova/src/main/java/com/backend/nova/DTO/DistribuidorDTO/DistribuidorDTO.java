@@ -22,5 +22,5 @@ public class DistribuidorDTO implements Serializable {
     private String telefono;
     private String email;
     private String nombreRepartidor;
-    private ProveedorDTO proveedor;
+    //private ProveedorDTO proveedor;
 }

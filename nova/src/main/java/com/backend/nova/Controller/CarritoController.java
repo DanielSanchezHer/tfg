@@ -2,6 +2,7 @@ package com.backend.nova.Controller;
 
 import com.backend.nova.DTO.CarritoDTO.AnyadirProductoCarrito;
 import com.backend.nova.DTO.CarritoDTO.CarritoDTO;
+import com.backend.nova.DTO.CarritoDTO.CarritoTodosDTO;
 import com.backend.nova.DTO.ProductoDTO.CrearProductoDTO;
 import com.backend.nova.DTO.ProductoDTO.ProductoCarritoDTO;
 import com.backend.nova.Entity.Carrito;
@@ -179,9 +180,9 @@ public class CarritoController {
                     content = @Content(schema = @Schema(implementation = Response.class)))
     })
     @GetMapping("/carritos/cliente/{clienteId}/finalizados")
-    public ResponseEntity<List<CarritoDTO>> getCarritosFinalizadosByCliente(@PathVariable Long clienteId) {
+    public ResponseEntity<List<CarritoTodosDTO>> getCarritosFinalizadosByCliente(@PathVariable Long clienteId) {
         List<Carrito> carritos = carritoService.findFinalizedCarritosByCliente(clienteId);
-        List<CarritoDTO> carritoDTOS = mapper.mapList(carritos, CarritoDTO.class);
+        List<CarritoTodosDTO> carritoDTOS = mapper.mapList(carritos, CarritoTodosDTO.class);
         logger.info("Carritos finalizados encontrados para el cliente con ID: " + clienteId);
         return ResponseEntity.ok(carritoDTOS);
     }

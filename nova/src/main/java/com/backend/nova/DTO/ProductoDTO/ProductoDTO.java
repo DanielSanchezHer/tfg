@@ -19,6 +19,6 @@ public class ProductoDTO implements Serializable {
     private String descripcion;
     private double precio;
     private boolean entregado;
-    private ContieneNMDTO contiene;
-    private DistribuidorDTO distribuidor;
+    //private ContieneNMDTO contiene;
+    //private DistribuidorDTO distribuidor;
 }

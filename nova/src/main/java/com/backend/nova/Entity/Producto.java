@@ -1,5 +1,6 @@
 package com.backend.nova.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,10 +33,10 @@ public class Producto {
     @Column(name = "entregado")
     private boolean entregado;
 
+
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ContieneNM> contiene;
 
-    @JsonIgnoreProperties("productos")
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", name = "id_distribuidor")
     private Distribuidor distribuidor;

@@ -19,4 +19,5 @@ public class CrearProductoDTO implements Serializable {
     private String descripcion;
     private double precio;
     private boolean entregado;
+    private Long idDistribuidor;
 }

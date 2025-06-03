@@ -137,4 +137,47 @@ public class ProductoController {
         return ResponseEntity.ok(productoDTOS);
     }
 
+    @Operation(summary = "Obtiene los productos entregados por un proveedor por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listado de productos del proveedor",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductoDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "No se encontraron productos para ese proveedor")
+    })
+    @GetMapping("/productos/por-proveedor/{nombre}")
+    public ResponseEntity<?> getProductosPorProveedor(@PathVariable("nombre") String nombreProveedor) {
+        List<Producto> productos = productoService.obtenerProductosPorNombreProveedor(nombreProveedor);
+
+        if (productos.isEmpty()) {
+            logger.warn("No se encontraron productos para el proveedor: " + nombreProveedor);
+            Map<String, String> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "No se encontraron productos para el proveedor: " + nombreProveedor);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(respuesta);
+        }
+
+        List<ProductoDTO> productoDTOs = productoMapper.mapList(productos, ProductoDTO.class);
+        logger.info("Productos encontrados para el proveedor: " + nombreProveedor);
+        return ResponseEntity.ok(productoDTOs);
+    }
+
+    @Operation(summary = "Obtiene los productos distribuidos por un distribuidor por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listado de productos del distribuidor",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductoDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "No se encontraron productos para ese distribuidor")
+    })
+    @GetMapping("/productos/por-distribuidor/{nombre}")
+    public ResponseEntity<?> getProductosPorDistribuidor(@PathVariable("nombre") String nombreDistribuidor) {
+        List<Producto> productos = productoService.obtenerProductosPorNombreDistribuidor(nombreDistribuidor);
+
+        if (productos.isEmpty()) {
+            logger.warn("No se encontraron productos para el distribuidor: " + nombreDistribuidor);
+            Map<String, String> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "No se encontraron productos para el distribuidor: " + nombreDistribuidor);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(respuesta);
+        }
+
+        List<ProductoDTO> productoDTOs = productoMapper.mapList(productos, ProductoDTO.class);
+        logger.info("Productos encontrados para el distribuidor: " + nombreDistribuidor);
+        return ResponseEntity.ok(productoDTOs);
+    }
 }

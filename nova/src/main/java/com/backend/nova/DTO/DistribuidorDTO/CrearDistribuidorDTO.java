@@ -18,4 +18,5 @@ public class CrearDistribuidorDTO implements Serializable {
     private String telefono;
     private String email;
     private String nombreRepartidor;
+    private Long idProveedor;
 }

@@ -43,6 +43,8 @@ public class ProductoService implements IProductoService{
         );
         newProducto.setNombre(producto.getNombre());
         newProducto.setPrecio(producto.getPrecio());
+        newProducto.setDescripcion(producto.getDescripcion());
+        newProducto.setEntregado(producto.isEntregado());
         try{
             return iProductoRepository.save(newProducto);
         }catch (Exception e){
@@ -50,15 +52,19 @@ public class ProductoService implements IProductoService{
         }
     }
 
-    @Override
     public boolean deleteById(Long id) throws Exception {
-        try{
-            iProductoRepository.findById(id).orElseThrow(
-                    () -> new NotFoundEntityException(id, Producto.class.getSimpleName())
-            );
+        try {
+            Producto producto = iProductoRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundEntityException(id, Producto.class.getSimpleName()));
+
+            // Desvincular relaciones antes de eliminar
+            producto.setDistribuidor(null);
+
+            iProductoRepository.save(producto); // Actualizar la desvinculación
+
             iProductoRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new DeleteEntityException(id, Producto.class.getSimpleName(), e);
         }
     }
@@ -67,4 +73,11 @@ public class ProductoService implements IProductoService{
     public List<Producto> findProductosNoEntregados() {
         return iProductoRepository.findByEntregadoFalse();
     }
+    public List<Producto> obtenerProductosPorNombreProveedor(String nombreProveedor) {
+        return iProductoRepository.findProductosByNombreProveedor(nombreProveedor);
+    }
+    public List<Producto> obtenerProductosPorNombreDistribuidor(String nombreDistribuidor) {
+        return iProductoRepository.findProductosByNombreDistribuidor(nombreDistribuidor);
+    }
+
 }
