@@ -5,10 +5,13 @@ import com.backend.nova.Entity.Carrito;
 import com.backend.nova.Entity.Usuario;
 import com.backend.nova.Exception.NotFoundEntityException;
 import com.backend.nova.Repository.IUsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsuarioService implements IUsuarioService
@@ -32,4 +35,12 @@ public class UsuarioService implements IUsuarioService
         return userRepository.findByUsername(username).orElseThrow(()
                 -> new NotFoundEntityException(username, Usuario.class.getSimpleName()));
     }
+
+    @Override
+    public Usuario findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario con ID " + id + " no encontrado."));
+    }
+
+
 }

@@ -8,6 +8,7 @@ import com.backend.nova.Exception.NotFoundEntityException;
 import com.backend.nova.Exception.UpdateEntityException;
 import com.backend.nova.Repository.ICarritoRepository;
 import com.backend.nova.Repository.IClienteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,10 +46,14 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente modificarCliente(Long id, Cliente cliente) {
         try {
-            iClienteRepository.findById(id)
+            Cliente newCliente =iClienteRepository.findById(id)
                     .orElseThrow(() -> new NotFoundEntityException(id, Cliente.class.getSimpleName()));
-            cliente.setId(id);
-            return iClienteRepository.save(cliente);
+            newCliente.setDni(cliente.getDni());
+            newCliente.setEmail(cliente.getEmail());
+            newCliente.setNombre(cliente.getNombre());
+            newCliente.setApellido(cliente.getApellido());
+
+            return iClienteRepository.save(newCliente);
         } catch (Exception e) {
             throw new UpdateEntityException("Error al modificar el cliente: " + id, e);
         }
@@ -107,4 +112,5 @@ public class ClienteService implements IClienteService {
 
         return total != null ? total : 0.0;
     }
+
 }

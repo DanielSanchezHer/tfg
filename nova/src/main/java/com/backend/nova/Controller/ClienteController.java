@@ -1,6 +1,7 @@
 package com.backend.nova.Controller;
 
 
+import com.backend.nova.DTO.CarritoDTO.ClienteUpdateDTO;
 import com.backend.nova.DTO.ClienteDTO.ClienteDTO;
 import com.backend.nova.DTO.ClienteDTO.ClienteFacturaDTO;
 import com.backend.nova.DTO.ClienteDTO.FinalizarCarrito;
@@ -68,6 +69,15 @@ public class ClienteController {
         return ResponseEntity.ok(clienteDTO);
     }
 
+    @GetMapping("/clientes/obtener/{id}")
+    public ResponseEntity<ClienteUpdateDTO> obtenerClienteById(@PathVariable Long id)
+    {
+        Cliente cliente = clienteService.findById(id);
+        ClienteUpdateDTO clienteDTO = mapper.mapType(cliente, ClienteUpdateDTO.class);
+        logger.info("Cliente encontrado con id: "+ id);
+        return ResponseEntity.ok(clienteDTO);
+    }
+
     @Operation(summary = "Crea un nuevo cliente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cliente creado correctamente",
@@ -91,6 +101,30 @@ public class ClienteController {
     })
     @PutMapping("/clientes/{id}")
     public ResponseEntity<?> updateCliente(@PathVariable Long id,
+                                           @RequestBody ClienteUpdateDTO newCliente)
+    {
+        Map<String, Object> errores = new HashMap<String,Object>();
+        Cliente cliente = null;
+        try
+        {
+            Cliente clienteentidad = mapper.mapType(newCliente, Cliente.class);
+            logger.info("Actualizando cliente con id: " + id);
+            cliente = clienteService.modificarCliente(id, clienteentidad);
+            errores.put("mensaje", "Cliente modificado correctamente");
+            logger.info("Cliente modificado con id: " + id);
+        }
+        catch (Exception e)
+        {
+            errores.put("error", e.getMessage());
+            errores.put("mensaje", "Error al modificar el cliente");
+            logger.error(errores.toString());
+            return new ResponseEntity<Map<String,Object>>(errores , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(cliente, HttpStatus.OK);
+    }
+    /*
+         @PutMapping("/clientes/{id}")
+    public ResponseEntity<?> updateCliente(@PathVariable Long id,
                                            @RequestBody Cliente newCliente)
     {
         Map<String, Object> errores = new HashMap<String,Object>();
@@ -109,7 +143,31 @@ public class ClienteController {
         }
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
-
+     */
+    /*
+             public ResponseEntity<?> updateCliente(@PathVariable Long id,
+                                               @RequestBody ClienteUpdateDTO newCliente)
+        {
+            Map<String, Object> errores = new HashMap<String,Object>();
+            Cliente cliente = null;
+            try
+            {
+                Cliente clienteentidad = mapper.mapType(newCliente, Cliente.class);
+                logger.info("Actualizando cliente con id: " + id);
+                cliente = clienteService.modificarCliente(id, clienteentidad);
+                errores.put("mensaje", "Cliente modificado correctamente");
+                logger.info("Cliente modificado con id: " + id);
+            }
+            catch (Exception e)
+            {
+                errores.put("error", e.getMessage());
+                errores.put("mensaje", "Error al modificar el cliente");
+                logger.error(errores.toString());
+                return new ResponseEntity<Map<String,Object>>(errores , HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(cliente, HttpStatus.OK);
+        }
+         */
     @Operation(summary = "Elimina un cliente por su id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cliente eliminado correctamente",

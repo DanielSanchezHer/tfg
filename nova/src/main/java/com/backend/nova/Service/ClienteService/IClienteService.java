@@ -15,4 +15,5 @@ public interface IClienteService {
     Carrito finalizarCarritoActivo(Long clienteId);
     List<Carrito> findAllCarritoWithProductoByClienteId(Long clienteId);
     Double calcularTotalCarritoActivo(Long clienteId);
+
 }
